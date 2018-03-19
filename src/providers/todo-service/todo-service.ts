@@ -7,6 +7,7 @@ import { UUID } from 'angular2-uuid';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import firebase from 'firebase';
+import { AngularFireDatabase } from 'angularfire2/database';
 @Injectable()
 export class TodoServiceProvider {
 
@@ -55,7 +56,7 @@ export class TodoServiceProvider {
     }
   ];
 
-  constructor(private afAuth: AngularFireAuth) {
+  constructor(private afAuth: AngularFireAuth, private afDataBase : AngularFireDatabase) {
     console.log('Hello TodoServiceProvider Provider');
 
   }
@@ -84,13 +85,16 @@ export class TodoServiceProvider {
   }
 
   public addTodo(name: string) {
-    let todoList: TodoList = { uuid: UUID.UUID(), name: name, items: [] };
     this.afAuth.authState.subscribe(auth => {
-      const personRef: firebase.database.Reference = firebase.database().ref(`/todos/${auth.uid}`);
-      personRef.set({
-        todoList
+      let ref = this.afDataBase.list(`/todoListes/${auth.uid}`).push('{}').set({
+        uuid : UUID.UUID(),
+        name : name , 
+        items : []
+  
       })
     })
+    
+    
   }
 
   public addTodoItem(todoItemName: string, todoItemDesc: string, todoItemStatut: Boolean, uuidList: string) {
