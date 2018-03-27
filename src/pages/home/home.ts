@@ -15,14 +15,16 @@ export class HomePage {
   todoList: TodoList[];
   profile = {} as Profile;
 
-  constructor(private toast: ToastController, public navParams: NavParams, private afAuth: AngularFireAuth, public navCtrl: NavController, private alertCtrl: AlertController, private todoService: TodoServiceProvider) {
+  constructor( private toast: ToastController, public navParams: NavParams, private afAuth: AngularFireAuth, public navCtrl: NavController, private alertCtrl: AlertController, private todoService: TodoServiceProvider) {
     this.profile = navParams.get("profile");
+    
     todoService.getList().subscribe(data => {
       this.todoList = data;
     }
     );
+   
   }
-
+  
   addTodoList() {
     let alert = this.alertCtrl.create({
       title: 'Add Todo List',
@@ -97,6 +99,36 @@ export class HomePage {
     alert.present();
 
   }
+
+  updateList(item){
+    let alert = this.alertCtrl.create({
+      title: 'Update Todo List',
+      inputs: [
+        {
+          name: 'todoListName',
+          placeholder: 'name',
+          value : item.name
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Update',
+          handler: data => {
+            item.name = data.todoListName ;
+            this.todoService.updateList(item);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
   ionViewWillLoad() {
     this.afAuth.authState.subscribe(data => {
       if (!data.email && !data.uid) {
@@ -107,5 +139,7 @@ export class HomePage {
       }
     })
   }
+  
+
 
 }

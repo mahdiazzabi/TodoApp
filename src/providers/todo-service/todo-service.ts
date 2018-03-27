@@ -15,7 +15,6 @@ export class TodoServiceProvider {
   todoListRef$ : AngularFireList<TodoList>;
   data:TodoList[] = [];
   
-  items: Observable<any[]>;
   constructor(private afAuth: AngularFireAuth, private afDataBase : AngularFireDatabase) {
     console.log('Hello TodoServiceProvider Provider');
     this.afAuth.authState.subscribe(auth => { 
@@ -25,7 +24,11 @@ export class TodoServiceProvider {
   }
  
   public getList(): Observable<TodoList[]>  {
+    this.afAuth.authState.subscribe(auth => { 
+      this.todoListRef$ = this.afDataBase.list(`${auth.uid}/todoListes/`);
     
+    });
+
     return this.todoListRef$.snapshotChanges().map(changes => {
       
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
@@ -44,7 +47,11 @@ export class TodoServiceProvider {
   public getTodos(uuid: string): Observable<TodoItem[]> {
     return Observable.of(this.data.find(d => d.uuid == uuid).items)
   }
-
+ public updateList(list : any){
+   this.afAuth.authState.subscribe(auth => { 
+    this.afDataBase.object(`${auth.uid}/todoListes/${list.key}`).update({name : list.name});
+  });
+ }
   public deleteList(key: string){
     
     console.log(key);
