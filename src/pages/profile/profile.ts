@@ -30,9 +30,10 @@ export class ProfilePage {
     console.log('ionViewDidLoad ProfilePage');
   }
 
+  
   createProfile(){
     this.afAuth.authState.subscribe(auth => {
-      const personRef: firebase.database.Reference = firebase.database().ref(`/profiles/${auth.uid}`);
+      const personRef: firebase.database.Reference = firebase.database().ref(`${auth.uid}/profile/`);
       personRef.set({ 
         firstName: this.profile.firstName, 
         lastName: this.profile.lastName 

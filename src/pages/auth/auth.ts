@@ -27,9 +27,9 @@ export class AuthPage {
       this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
       .then( result => {
         if (result) {
-          const personRef: firebase.database.Reference = firebase.database().ref(`/profiles/`);
-          this.afAuth.authState.subscribe(auth => {
-            personRef.child(`${auth.uid}`).on('value', personSnapshot => {
+          const personRef: firebase.database.Reference = firebase.database().ref(`${result.uid}/`);
+         
+            personRef.child(`profile`).on('value', personSnapshot => {
               this.profile = personSnapshot.val();
               if (this.profile) {
                 this.navCtrl.setRoot(HomePage , {profile : this.profile});
@@ -44,8 +44,8 @@ export class AuthPage {
                   duration : 4000 
                 }).present();
               }
-            })
-          });
+            });
+          
         }
       })
      .catch(error => {

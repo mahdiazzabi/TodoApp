@@ -5,70 +5,45 @@ import { TodoList } from '../../model/TodoList';
 import { TodoItem } from '../../model/TodoItem';
 import { UUID } from 'angular2-uuid';
 import { AngularFireAuth } from 'angularfire2/auth';
-
+import 'rxjs/add/operator/map';
 import firebase from 'firebase';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { createElement } from '@angular/core/src/view/element';
 @Injectable()
 export class TodoServiceProvider {
 
-  data: TodoList[] = [
-    {
-      uuid: "a351e558-29ce-4689-943c-c3e97be0df8b",
-      name: "List 1",
-      items: [
-        {
-          uuid: "7dc94eb4-d4e9-441b-b06b-0ca29738c8d2",
-          name: "Item 1-1",
-          complete: false
-        },
-        {
-          uuid: "20c09bdd-1cf8-43b0-9111-977fc4d343bc",
-          name: "Item 1-2",
-          complete: false
-        },
-        {
-          uuid: "bef88351-f4f1-4b6a-965d-bb1a4fa3b444",
-          name: "Item 1-3",
-          complete: true
-        }
-      ]
-    },
-    {
-      uuid: "90c04913-c1a2-47e5-9535-c7a430cdcf9c",
-      name: "List 2",
-      items: [
-        {
-          uuid: "72849f5f-2ef6-444b-98b0-b50fc019f97c",
-          name: "Item 2-1",
-          complete: false
-        },
-        {
-          uuid: "80d4cbbe-1c64-4603-8d00-ee4932045333",
-          name: "Item 2-2",
-          complete: true
-        },
-        {
-          uuid: "a1cd4568-590b-428b-989d-165f22365485",
-          name: "Item 2-3",
-          complete: true
-        }
-      ]
-    }
-  ];
-
+  todoListRef$ : AngularFireList<TodoList>;
+  data:TodoList[] = [];
+  
   constructor(private afAuth: AngularFireAuth, private afDataBase : AngularFireDatabase) {
     console.log('Hello TodoServiceProvider Provider');
-
+    this.afAuth.authState.subscribe(auth => { 
+      this.todoListRef$ = this.afDataBase.list(`${auth.uid}/todoListes/`);
+    });
+  }
+ 
+  public getList(): Observable<TodoList[]>  {
+    return this.todoListRef$.valueChanges();
   }
 
-  public getList(): Observable<TodoList[]> {
-    return Observable.of(this.data);
+  public addList(name: string) {
+    
+    this.todoListRef$.push({
+      uuid : UUID.UUID(),
+      name : name , 
+      items : [] });
   }
+
 
   public getTodos(uuid: string): Observable<TodoItem[]> {
     return Observable.of(this.data.find(d => d.uuid == uuid).items)
   }
 
+  public deleteList(key: string){
+    console.log(key);
+    this.todoListRef$.remove(key);
+    //this.ref.remove( )
+  }
 
   public editTodo(listUuid: string, editedItem: TodoItem) {
     let items = this.data.find(d => d.uuid == listUuid).items;
@@ -84,24 +59,18 @@ export class TodoServiceProvider {
     }
   }
 
-  public addTodo(name: string) {
-    this.afAuth.authState.subscribe(auth => {
-      let ref = this.afDataBase.list(`/todoListes/${auth.uid}`).push('{}').set({
-        uuid : UUID.UUID(),
-        name : name , 
-        items : []
-  
-      })
-    })
-    
-    
-  }
+
 
   public addTodoItem(todoItemName: string, todoItemDesc: string, todoItemStatut: Boolean, uuidList: string) {
     let todoItem: TodoItem = { uuid: UUID.UUID(), name: todoItemName, desc: todoItemDesc, complete: todoItemStatut }
     console.log(this.data.find(list => list.uuid === uuidList).items);
     this.data.find(list => list.uuid === uuidList).items.push(todoItem);
 
+    //this.DB.list(`${this.basePath}/${todoList.uuid}/items`).push(newtodoItem);
+    this.afAuth.authState.subscribe(auth => {
+      let ref = this.afDataBase.list(`${auth.uid}/todoListes/${uuidList}/items`).push(todoItem);
+    })
 
   }
+  
 }

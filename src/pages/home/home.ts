@@ -25,11 +25,11 @@ export class HomePage {
 
   addTodoList() {
     let alert = this.alertCtrl.create({
-      title: 'Ajouter Todo Liste',
+      title: 'Add Todo List',
       inputs: [
         {
           name: 'todoListName',
-          placeholder: 'nom'
+          placeholder: 'name'
         }
       ],
       buttons: [
@@ -41,9 +41,9 @@ export class HomePage {
           }
         },
         {
-          text: 'Ajouter',
+          text: 'Add',
           handler: data => {
-            this.todoService.addTodo(data.todoListName);
+            this.todoService.addList(data.todoListName);
           }
         }
       ]
@@ -74,6 +74,29 @@ export class HomePage {
     return result;
   }
 
+
+  deleteList(item){
+    let alert = this.alertCtrl.create({
+      title: 'Do you want to delete this list ?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: data => {
+            this.todoService.deleteList(item);
+          }
+        }
+      ]
+    });
+    alert.present();
+
+  }
   ionViewWillLoad() {
     this.afAuth.authState.subscribe(data => {
       if (!data.email && !data.uid) {
