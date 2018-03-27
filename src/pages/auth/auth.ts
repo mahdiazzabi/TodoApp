@@ -71,8 +71,19 @@ export class AuthPage {
   register() {
     this.navCtrl.push('RegisterPage');
   }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad AuthPage');
   }
-
+  loginbygoogle()
+  {
+    this.afAuth.auth.signInWithPopup(new
+      firebase.auth.GoogleAuthProvider()).then(res=>
+        {  console.log(res)
+          this.navCtrl.setRoot(TabsPage);
+         
+      }).catch(function (error) {
+        console.log(JSON.stringify(error))
+      });
+  }
 }
