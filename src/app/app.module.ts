@@ -18,6 +18,7 @@ import {AngularFireDatabaseModule} from 'angularfire2/database';
 import { AuthPage } from '../pages/auth/auth';
 import { ProfilePage } from '../pages/profile/profile';
 import { TodoServiceProvider } from '../providers/todo-service/todo-service';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 export const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBBWLEUyu5PIFpFW5eeDuZGWENP7k8y8g4",
@@ -62,7 +63,8 @@ export const FIREBASE_CONFIG = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    TodoServiceProvider
+    TodoServiceProvider,
+    AuthServiceProvider
   ]
 })
 export class AppModule {}
