@@ -30,8 +30,8 @@
 
 
 
-      <button ion-button (click) = "loginFb()" >Login With Facebook</button>
-
+      <button ion-button (click) = "loginFb()" ><ion-icon name="logo-facebook"></ion-icon></button>
+      <button ion-button (click)="loginbygoogle()"><ion-icon name="logo-googleplus"></ion-icon></button>
 
       <div *ngIf="error" class="alert alert-danger">{{error}}</div>
 </ion-content>
