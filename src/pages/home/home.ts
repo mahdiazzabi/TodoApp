@@ -18,13 +18,18 @@ export class HomePage {
   constructor( private toast: ToastController, public navParams: NavParams, private afAuth: AngularFireAuth, public navCtrl: NavController, private alertCtrl: AlertController, private todoService: TodoServiceProvider) {
     this.profile = navParams.get("profile");
     
-    todoService.getList().subscribe(data => {
-      this.todoList = data;
-    }
-    );
+    
    
   }
   
+  ngOnInit() { 
+    this.todoService.getList().subscribe(data => {
+      this.todoList = data;
+    }
+    );
+    
+   }
+
   addTodoList() {
     let alert = this.alertCtrl.create({
       title: 'Add Todo List',
