@@ -99,7 +99,7 @@ export class AuthPage {
           console.log(JSON.stringify(error))
         });
     }
-    else{
+	
       this.googleplus.login({
         'webClientId':'428468716640-pfg6n1d3nj8cr319vaqeclb1ooak91b5.apps.googleusercontent.com',
         'offline':true
@@ -111,6 +111,6 @@ export class AuthPage {
         alert("notsucc");
       })
       })
-    }
+	
 }
 }
