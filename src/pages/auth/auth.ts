@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Platform } from 'ionic-angular';
 import { User } from '../../model/user';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TabsPage } from '../tabs/tabs';
@@ -7,7 +7,7 @@ import firebase from 'firebase';
 import { ProfilePage } from '../profile/profile';
 import { Profile } from '../../model/profile';
 import { HomePage } from '../home/home';
-
+import{GooglePlus} from '@ionic-native/google-plus';
 @IonicPage()
 @Component({
   selector: 'page-auth',
@@ -18,7 +18,7 @@ export class AuthPage {
   user = {} as User;
 
   profile = {} as Profile;
-  constructor(private toast: ToastController,private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private toast: ToastController,private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams,private googleplus:GooglePlus,public platform: Platform) {
 
 
   }
@@ -86,4 +86,31 @@ export class AuthPage {
         console.log(JSON.stringify(error))
       });
   }
+  logingoogleplus()
+  { 
+      if(this.platform.is('core')||this.platform.is('mobileweb'))
+    {
+      this.afAuth.auth.signInWithPopup(new
+        firebase.auth.GoogleAuthProvider()).then(res=>
+          {  console.log(res)
+            this.navCtrl.setRoot(HomePage);
+          
+        }).catch(function (error) {
+          console.log(JSON.stringify(error))
+        });
+    }
+    else{
+      this.googleplus.login({
+        'webClientId':'428468716640-pfg6n1d3nj8cr319vaqeclb1ooak91b5.apps.googleusercontent.com',
+        'offline':true
+      }).then(res=>{
+      this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
+      .then(suc=>{
+        this.navCtrl.setRoot(HomePage);
+      }).catch(ns=>{
+        alert("notsucc");
+      })
+      })
+    }
+}
 }
