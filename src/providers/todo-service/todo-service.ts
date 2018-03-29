@@ -6,31 +6,26 @@ import { TodoItem } from '../../model/TodoItem';
 import { UUID } from 'angular2-uuid';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
-import firebase from 'firebase';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { createElement } from '@angular/core/src/view/element';
+
 @Injectable()
 export class TodoServiceProvider {
-
+  userUid : string ;
   todoListRef$ : AngularFireList<TodoList>;
-  data:TodoList[] = [];
-  
+  todos : TodoItem [] = [] ;
   constructor(private afAuth: AngularFireAuth, private afDataBase : AngularFireDatabase) {
     console.log('Hello TodoServiceProvider Provider');
     this.afAuth.authState.subscribe(auth => { 
-      this.todoListRef$ = this.afDataBase.list(`${auth.uid}/todoListes/`);
+      this.userUid = auth.uid ;
+      this.todoListRef$ = this.afDataBase.list(`${this.userUid}/todoListes/`);
+      
     });
    
   }
  
   public getList(): Observable<TodoList[]>  {
-    this.afAuth.authState.subscribe(auth => { 
-      this.todoListRef$ = this.afDataBase.list(`${auth.uid}/todoListes/`);
     
-    });
-
     return this.todoListRef$.snapshotChanges().map(changes => {
-      
       return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
     });
   }
@@ -43,48 +38,99 @@ export class TodoServiceProvider {
       items : [] });
   }
 
+public getListByUuid(uuid: string): Promise<TodoList> {
+  return new Promise((resolve, reject) => {
+    const todolistRef$ = this.afDataBase.database.ref(`${this.userUid}/todoListes/`).orderByChild("uuid").equalTo(uuid);
+  
+    todolistRef$.once('value').then((listSnapshot) => {
+     
+      for (var list in listSnapshot.val()) {
+        if (listSnapshot.val()[list]['uuid'] == uuid) {
+          if (!listSnapshot.val()[list]['items']) {
+            listSnapshot.val()[list]['items'] = [];
+          }
+          else {
+            listSnapshot.val()[list]['items'] = Object.keys(listSnapshot.val()[list]['items']).map(function (item) {
+              return listSnapshot.val()[list]['items'][item];
+            });
+          }
+          resolve(listSnapshot.val()[list]);
+          break;
+        }
+      }
+    });
+  });
+}
 
   public getTodos(uuid: string): Observable<TodoItem[]> {
-    return Observable.of(this.data.find(d => d.uuid == uuid).items)
+    this.todos = [];
+		this.getListByUuid(uuid).then((val) => {
+			for (var key in val['items']) {
+				this.todos.push(val['items'][key]);
+			}
+		});
+	
+      return Observable.of(this.todos);
   }
+
  public updateList(list : any){
-   this.afAuth.authState.subscribe(auth => { 
-    this.afDataBase.object(`${auth.uid}/todoListes/${list.key}`).update({name : list.name});
-  });
+   
+    this.afDataBase.object(`${this.userUid}/todoListes/${list.key}`).update({name : list.name});
+ 
  }
+ 
   public deleteList(key: string){
-    
-    console.log(key);
     this.todoListRef$.remove(key);
-    //this.ref.remove( )
   }
 
   public editTodo(listUuid: string, editedItem: TodoItem) {
+    /*
     let items = this.data.find(d => d.uuid == listUuid).items;
     let index = items.findIndex(value => value.uuid == editedItem.uuid);
     items[index] = editedItem;
+    */
   }
 
   public deleteTodo(listUuid: string, uuid: string) {
+    /*
     let items = this.data.find(d => d.uuid == listUuid).items;
     let index = items.findIndex(value => value.uuid == uuid);
     if (index != -1) {
       items.splice(index, 1);
     }
+    */
   }
 
+  public getListKeyByUid(uuid: string): any {
+		return new Promise((resolve, reject) => {
+      const todolistRef$ = this.afDataBase.database.ref(`${this.userUid}/todoListes/`).orderByChild("uuid").equalTo(uuid);
+		
+			todolistRef$.once('value').then((listSnapshot) => {
+				var snap = listSnapshot.val();
+				for (var list in snap) {
+					if (snap[list]['uuid'] == uuid) {
+						if (!snap[list]['items']) {
+							snap[list]['items'] = [];
+						}
+						resolve(list);
+						break;
+					}
+				}
+			});
+		});
+}
 
 
   public addTodoItem(todoItemName: string, todoItemDesc: string, todoItemStatut: Boolean, uuidList: string) {
+    
     let todoItem: TodoItem = { uuid: UUID.UUID(), name: todoItemName, desc: todoItemDesc, complete: todoItemStatut }
-    console.log(this.data.find(list => list.uuid === uuidList).items);
-    this.data.find(list => list.uuid === uuidList).items.push(todoItem);
+    
+    this.getFBListIDByUid(uuidList).then((listid) => {
+      const refTodoItem$ =  this.afDataBase.list(`${this.userUid}/todoListes/${listid}/items`);
+      refTodoItem$.push(todoItem).then(() => this.todos.push(todoItem));
+     
 
-    //this.DB.list(`${this.basePath}/${todoList.uuid}/items`).push(newtodoItem);
-    this.afAuth.authState.subscribe(auth => {
-      let ref = this.afDataBase.list(`${auth.uid}/todoListes/${uuidList}/items`).push(todoItem);
     })
-
   }
   
 }
