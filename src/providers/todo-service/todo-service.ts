@@ -125,7 +125,7 @@ public getListByUuid(uuid: string): Promise<TodoList> {
     
     let todoItem: TodoItem = { uuid: UUID.UUID(), name: todoItemName, desc: todoItemDesc, complete: todoItemStatut }
     
-    this.getFBListIDByUid(uuidList).then((listid) => {
+    this.getListKeyByUid(uuidList).then((listid) => {
       const refTodoItem$ =  this.afDataBase.list(`${this.userUid}/todoListes/${listid}/items`);
       refTodoItem$.push(todoItem).then(() => this.todos.push(todoItem));
      
