@@ -88,5 +88,11 @@
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.11" />
     <allow-navigation href="http://192.168.0.10:8100" />
-    <engine name="android" spec="~7.0.0" />
+    <plugin name="cordova-plugin-googleplus" spec="~5.2.2">
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.428468716640-pfg6n1d3nj8cr319vaqeclb1ooak91b5" />
+    </plugin>
+    <engine name="android" spec="7.0.0" />
+    <allow-navigation href="http://169.254.23.118:8100" />
+    <plugin name="cordova-plugin-camera" spec="^4.0.2" />
+    <allow-navigation href="http://192.168.175.1:8100" />
 </widget>

@@ -30,6 +30,7 @@
     "angularfire2": "^5.0.0-rc.5-next",
     "cordova": "^8.0.0",
     "cordova-android": "7.0.0",
+    "cordova-plugin-camera": "^4.0.2",
     "cordova-plugin-device": "^1.1.7",
     "cordova-plugin-ionic-webview": "^1.1.16",
     "cordova-plugin-splashscreen": "^4.1.0",
@@ -55,7 +56,11 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {}
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-googleplus": {
+        "REVERSED_CLIENT_ID": "com.googleusercontent.apps.428468716640-pfg6n1d3nj8cr319vaqeclb1ooak91b5"
+      },
+      "cordova-plugin-camera": {}
     },
     "platforms": [
       "android"
