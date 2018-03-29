@@ -65,6 +65,7 @@ export class HomePage {
   }
 
   nbrItemNonFini(uuid) {
+    /*
     let result = 0;
     this.todoList.forEach(element => {
       if (element.uuid == uuid) {
@@ -79,6 +80,7 @@ export class HomePage {
       }
     });
     return result;
+    */
   }
 
 

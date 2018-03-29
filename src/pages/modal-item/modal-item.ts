@@ -16,7 +16,7 @@ import { TodoServiceProvider } from '../../providers/todo-service/todo-service';
 })
 export class ModalItemPage {
   todoItemName : string ;
-  todoItemDesc : string ;
+  todoItemDesc : string = "" ;
   todoItemStatut : Boolean = false;
   uuidTodo : string ;
   
