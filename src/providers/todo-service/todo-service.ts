@@ -74,21 +74,23 @@ public getListByUuid(uuid: string): Promise<TodoList> {
   }
 
  public updateList(list : any){
-   
     this.afDataBase.object(`${this.userUid}/todoListes/${list.key}`).update({name : list.name});
- 
  }
  
   public deleteList(key: string){
     this.todoListRef$.remove(key);
   }
 
-  public editTodo(listUuid: string, editedItem: TodoItem) {
+  public editTodo(listUuid: string, editedItem: any) {
     /*
     let items = this.data.find(d => d.uuid == listUuid).items;
     let index = items.findIndex(value => value.uuid == editedItem.uuid);
     items[index] = editedItem;
     */
+   console.log(editedItem);
+    this.getListKeyByUid(listUuid).then((list)=>{
+      this.afDataBase.object(`${this.userUid}/todoListes/${list}/items/${editedItem.key}`).update({name : editedItem.name , desc : editedItem.desc , complete : editedItem.complete});
+    })
   }
 
   public deleteTodo(listUuid: string, uuid: string) {
