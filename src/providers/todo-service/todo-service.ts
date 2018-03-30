@@ -7,7 +7,6 @@ import { UUID } from 'angular2-uuid';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { resolveDefinition } from '@angular/core/src/view/util';
 
 @Injectable()
 export class TodoServiceProvider {
@@ -64,7 +63,7 @@ public getListByUuid(uuid: string): Promise<TodoList> {
 }
 
   public getTodos(uuid: string): Observable<TodoItem[]> {
-    this.todos = [];
+    
 		this.getListByUuid(uuid).then((val) => {
 			for (var key in val['items']) {
 				this.todos.push(val['items'][key]);
@@ -83,28 +82,27 @@ public getListByUuid(uuid: string): Promise<TodoList> {
   }
 
   public updateTodo(listUuid: string, editedItem: any) {
-    /*
-    let items = this.data.find(d => d.uuid == listUuid).items;
-    let index = items.findIndex(value => value.uuid == editedItem.uuid);
-    items[index] = editedItem;
-    */
-   console.log(editedItem);
     this.getItemKeyByUuid(editedItem.uuid,listUuid).then((keyItem)=>{
       this.getListKeyByUuid(listUuid).then((listKey) => {
         this.afDataBase.object(`${this.userUid}/todoListes/${listKey}/items/${keyItem}`).update({name : editedItem.name , desc : editedItem.desc , complete : editedItem.complete});
- 
       })
     })
   }
 
   public deleteTodo(listUuid: string, uuid: string) {
-    /*
-    let items = this.data.find(d => d.uuid == listUuid).items;
-    let index = items.findIndex(value => value.uuid == uuid);
-    if (index != -1) {
-      items.splice(index, 1);
-    }
-    */
+   
+    this.getItemKeyByUuid(uuid , listUuid).then( itemKey => {
+      this.getListKeyByUuid(listUuid).then(listKey => {
+        this.afDataBase.list(`${this.userUid}/todoListes/${listKey}/items/${itemKey}`).remove().then(() => {
+          let index = this.todos.findIndex(value => value.uuid == uuid);
+          if (index != -1) {
+            this.todos.splice(index, 1);
+          }
+          })
+               
+        });
+     
+    });
   }
  public getItemKeyByUuid(uuidTodo: string , uuidList : string){
     return new Promise((resolve , reject) => {
@@ -150,8 +148,6 @@ public getListByUuid(uuid: string): Promise<TodoList> {
     this.getListKeyByUuid(uuidList).then((listid) => {
       const refTodoItem$ =  this.afDataBase.list(`${this.userUid}/todoListes/${listid}/items`);
       refTodoItem$.push(todoItem).then(() => this.todos.push(todoItem));
-     
-
     })
   }
   
