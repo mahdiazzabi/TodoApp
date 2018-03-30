@@ -101,12 +101,14 @@ export class AuthPage {
     }
 	
       this.googleplus.login({
-        'webClientId':'428468716640-pfg6n1d3nj8cr319vaqeclb1ooak91b5.apps.googleusercontent.com',
+        'webClientId':'398864959818-f43kcpmsogjc3ihjgtig8fhf6am3lae3.apps.googleusercontent.com',
         'offline':true
       }).then(res=>{
       this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
       .then(suc=>{
+        alert("ok");
         this.navCtrl.setRoot(HomePage);
+     
       }).catch(ns=>{
         alert("notsucc");
       })
