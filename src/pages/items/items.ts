@@ -62,7 +62,6 @@ export class ItemsPage {
           text: 'Confirmer',
           handler: () => {
             this.todoService.deleteTodo(this.uuidTodo, item.uuid);
-            console.log('Delete ok');
           }
         }
       ]

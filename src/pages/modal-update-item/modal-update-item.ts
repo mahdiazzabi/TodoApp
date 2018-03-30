@@ -26,7 +26,7 @@ export class ModalUpdateItemPage {
   }
 
   update(){
-    this.todoService.editTodo(this.uuidTodo , this.item);
+    this.todoService.updateTodo(this.uuidTodo , this.item);
     this.closeModal();
   }
 
