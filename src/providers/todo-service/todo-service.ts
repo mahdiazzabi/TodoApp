@@ -7,6 +7,7 @@ import { UUID } from 'angular2-uuid';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { resolveDefinition } from '@angular/core/src/view/util';
 
 @Injectable()
 export class TodoServiceProvider {
@@ -81,15 +82,18 @@ public getListByUuid(uuid: string): Promise<TodoList> {
     this.todoListRef$.remove(key);
   }
 
-  public editTodo(listUuid: string, editedItem: any) {
+  public updateTodo(listUuid: string, editedItem: any) {
     /*
     let items = this.data.find(d => d.uuid == listUuid).items;
     let index = items.findIndex(value => value.uuid == editedItem.uuid);
     items[index] = editedItem;
     */
    console.log(editedItem);
-    this.getListKeyByUid(listUuid).then((list)=>{
-      this.afDataBase.object(`${this.userUid}/todoListes/${list}/items/${editedItem.key}`).update({name : editedItem.name , desc : editedItem.desc , complete : editedItem.complete});
+    this.getItemKeyByUuid(editedItem.uuid,listUuid).then((keyItem)=>{
+      this.getListKeyByUuid(listUuid).then((listKey) => {
+        this.afDataBase.object(`${this.userUid}/todoListes/${listKey}/items/${keyItem}`).update({name : editedItem.name , desc : editedItem.desc , complete : editedItem.complete});
+ 
+      })
     })
   }
 
@@ -102,8 +106,24 @@ public getListByUuid(uuid: string): Promise<TodoList> {
     }
     */
   }
-
-  public getListKeyByUid(uuid: string): any {
+ public getItemKeyByUuid(uuidTodo: string , uuidList : string){
+    return new Promise((resolve , reject) => {
+      this.getListKeyByUuid(uuidList).then( (keyList) => {
+        const ItemRef$ = this.afDataBase.database.ref(`${this.userUid}/todoListes/${keyList}/items/`).orderByChild("uuid").equalTo(uuidTodo);
+        ItemRef$.once('value').then((listSnapshot) => {
+          var snap = listSnapshot.val();
+            for (var key in snap) {
+              if (snap[key]['uuid'] == uuidTodo) {
+                resolve(key);
+                break;
+              }
+            }
+        })
+      })
+   
+    });
+ }
+  public getListKeyByUuid(uuid: string): any {
 		return new Promise((resolve, reject) => {
       const todolistRef$ = this.afDataBase.database.ref(`${this.userUid}/todoListes/`).orderByChild("uuid").equalTo(uuid);
 		
@@ -127,7 +147,7 @@ public getListByUuid(uuid: string): Promise<TodoList> {
     
     let todoItem: TodoItem = { uuid: UUID.UUID(), name: todoItemName, desc: todoItemDesc, complete: todoItemStatut }
     
-    this.getListKeyByUid(uuidList).then((listid) => {
+    this.getListKeyByUuid(uuidList).then((listid) => {
       const refTodoItem$ =  this.afDataBase.list(`${this.userUid}/todoListes/${listid}/items`);
       refTodoItem$.push(todoItem).then(() => this.todos.push(todoItem));
      
