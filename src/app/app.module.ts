@@ -22,6 +22,7 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import{GooglePlus} from '@ionic-native/google-plus';
 import{Camera} from '@ionic-native/camera';
 import { PicturePage } from '../pages/picture/picture';
+import { ImageProvider } from '../providers/image/image';
 
 export const FIREBASE_CONFIG = {
   apiKey: "AIzaSyCEbycuhtbB-3GN4nxNtD9EVNu8LsxN528",
@@ -71,7 +72,8 @@ export const FIREBASE_CONFIG = {
     TodoServiceProvider,
     AuthServiceProvider,
     GooglePlus,
-    Camera
+    Camera,
+    ImageProvider
   ]
 })
 export class AppModule {}
