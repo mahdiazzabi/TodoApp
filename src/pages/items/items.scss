@@ -1,3 +1,13 @@
 page-items {
-
+    .addlibraryphoto {
+        width: calc(50% - 22px);
+        background: color($colors, light);
+        color: black;
+        // color: lightskyblue;
+        margin: 30px 6px 10px 15px;
+    }
+    
+    .addlibraryphoto:hover{
+        background-color: color($colors, light) !important;
+    }
 }
