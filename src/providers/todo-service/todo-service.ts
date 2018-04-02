@@ -51,16 +51,22 @@ export class TodoServiceProvider {
   }
   
   public shareList(list : TodoList , mail : string){
-  
+   
     admin.auth().getUserByEmail(mail).then(function(userRecord) {
+      let ref = firebase.database().ref(`${userRecord.uid}/sharedList/${this.userUid}`);
+      let newData = this.ref.push();
+      newData.set({
+        roomname:this.data.roomname
+      });
     // See the UserRecord reference doc for the contents of userRecord.
-    this.afDataBase.list(`${userRecord.uid}/sharedList/`).push({list});
+    const sharedRef$ = this.afDataBase.list(`${userRecord.uid}/sharedList/${this.userUid}`).then(() =>{sharedRef$.push({list});});
+    
 
     alert(userRecord.uid)
     console.log("Successfully fetched user data:", userRecord.toJSON());
   })
   .catch(function(error) {
-    alert("not ok")
+    alert(error)
     console.log("Error fetching user data:", error);
   });
 

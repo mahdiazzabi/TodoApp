@@ -38,7 +38,7 @@ export class ItemsPage {
     
     myModal.present();
   }
-
+  
   update(item) {
     const updateItemModal = this.modal.create('ModalUpdateItemPage', { item: item, uuidTodo: this.uuidTodo });
     updateItemModal.present();
