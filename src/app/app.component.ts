@@ -27,7 +27,7 @@ export class MyApp {
            this.requestspeechRecognitionPermission();
          }
       })
-      */
+    */  
     });
     
   }

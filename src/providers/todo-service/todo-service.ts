@@ -22,17 +22,17 @@ export class TodoServiceProvider {
     this.afAuth.authState.subscribe(auth => { 
       this.userUid = auth.uid ;
       this.todoListRef$ = this.afDataBase.list(`${this.userUid}/todoListes/`);
-      var admin = require("firebase-admin");
 
-var serviceAccount = require("/Users/Mazzabi/todoListIonic/todoList/mytodo-db-firebase-adminsdk-4vr27-b338a53a6d.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://mytodo-db.firebaseio.com"
-});
 
     });
-   
+    var admin = require("firebase-admin");
+
+    var serviceAccount = require("/Users/Mazzabi/todoListIonic/todoList/mytodo-db-firebase-adminsdk-4vr27-b338a53a6d.json");
+    
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: "https://mytodo-db.firebaseio.com"
+    });
   }
  
   public getList(): Observable<TodoList[]>  {
@@ -51,14 +51,16 @@ admin.initializeApp({
   }
   
   public shareList(list : TodoList , mail : string){
-   
-
-
+  
     admin.auth().getUserByEmail(mail).then(function(userRecord) {
     // See the UserRecord reference doc for the contents of userRecord.
+    this.afDataBase.list(`${userRecord.uid}/sharedList/`).push({list});
+
+    alert(userRecord.uid)
     console.log("Successfully fetched user data:", userRecord.toJSON());
   })
   .catch(function(error) {
+    alert("not ok")
     console.log("Error fetching user data:", error);
   });
 
@@ -149,6 +151,7 @@ public getListByUuid(uuid: string): Promise<TodoList> {
    
     });
  }
+ 
   public getListKeyByUuid(uuid: string): any {
 		return new Promise((resolve, reject) => {
       const todolistRef$ = this.afDataBase.database.ref(`${this.userUid}/todoListes/`).orderByChild("uuid").equalTo(uuid);
