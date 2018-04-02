@@ -32,7 +32,7 @@ export class AuthPage {
             personRef.child(`profile`).on('value', personSnapshot => {
               this.profile = personSnapshot.val();
               if (this.profile) {
-                this.navCtrl.setRoot(HomePage , {profile : this.profile});
+                this.navCtrl.setRoot(TabsPage , {profile : this.profile});
                 this.toast.create({
                   message : `Hello ${this.profile.firstName} `,
                   duration : 4000 
@@ -106,7 +106,6 @@ export class AuthPage {
       }).then(res=>{
       this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
       .then(suc=>{
-        alert("ok");
         this.navCtrl.setRoot(HomePage);
      
       }).catch(ns=>{

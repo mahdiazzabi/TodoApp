@@ -1,20 +1,27 @@
 <ion-header>
   <ion-navbar>
+    
     <ion-title>Home</ion-title>
   </ion-navbar>
+  
 </ion-header>
 
 <ion-content padding>
   <ion-card>
     <ion-card-header>
-      My Todos
+      Todo's List
+    <ion-buttons>
+      <button style="float: right;" (click)="addTodoList()">
+          <ion-icon name="add"></ion-icon>
+      </button>
+ </ion-buttons>  
     </ion-card-header>
 
     <ion-list>
     <ion-item-sliding *ngFor="let item of todoList"  >
         <ion-item (click)="pushPage(item)" >
            {{item.name}} 
-           {{nbrItemNonFini(item.uuid)}} Task(s) in progress
+           ({{nbrItemNonFini(item.uuid)}})
           </ion-item>
         
           <ion-item-options side="right" >
@@ -34,6 +41,4 @@
     </ion-list>
 
 
-
-<button ion-button color="secondary" block (click)="addTodoList()">Ajouter une todo liste</button>
 </ion-content>

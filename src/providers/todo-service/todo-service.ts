@@ -63,7 +63,7 @@ public getListByUuid(uuid: string): Promise<TodoList> {
 }
 
   public getTodos(uuid: string): Observable<TodoItem[]> {
-    
+    this.todos = [];
 		this.getListByUuid(uuid).then((val) => {
 			for (var key in val['items']) {
 				this.todos.push(val['items'][key]);
