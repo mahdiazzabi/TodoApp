@@ -4,7 +4,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AuthPage } from '../pages/auth/auth';
-import { PicturePage } from '../pages/picture/picture';
 //components Native 
 import {SpeechRecognition} from '@ionic-native/speech-recognition';
 
@@ -12,7 +11,7 @@ import {SpeechRecognition} from '@ionic-native/speech-recognition';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = PicturePage;
+  rootPage:any = AuthPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private speechRecongnition:SpeechRecognition) {
     platform.ready().then(() => {

@@ -188,12 +188,12 @@ export class HomePage {
   } 
 
   public startListening():void{
-
+    
     this.isListening=true;
     this.matches=[];
     let options = {
       language :'fr-FR',
-      matches:5,
+      matches:1,
       promt :'Je vous écoute! :)',      // Android only
       showPopup :true,                     // Android only
       showPartial :false 

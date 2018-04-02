@@ -93,11 +93,7 @@
     </plugin>
     <allow-navigation href="http://169.254.23.118:8100" />
     <allow-navigation href="http://192.168.175.1:8100" />
-<<<<<<< HEAD
-    <engine name="android" spec="~7.0.0" />
     <plugin name="cordova-plugin-speechrecognition" spec="^1.2.0" />
-=======
     <plugin name="cordova-plugin-camera" spec="^4.0.2" />
     <engine name="android" spec="7.0.0" />
->>>>>>> 6d8d3ada9d499d8eb02975c755f0116d28c56d87
 </widget>
