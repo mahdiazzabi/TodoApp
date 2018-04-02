@@ -32,7 +32,7 @@ export class AuthPage {
             personRef.child(`profile`).on('value', personSnapshot => {
               this.profile = personSnapshot.val();
               if (this.profile) {
-                this.navCtrl.setRoot(HomePage , {profile : this.profile});
+                this.navCtrl.setRoot(TabsPage , {profile : this.profile});
                 this.toast.create({
                   message : `Hello ${this.profile.firstName} `,
                   duration : 4000 
@@ -101,12 +101,13 @@ export class AuthPage {
     }
 	
       this.googleplus.login({
-        'webClientId':'428468716640-pfg6n1d3nj8cr319vaqeclb1ooak91b5.apps.googleusercontent.com',
+        'webClientId':'398864959818-f43kcpmsogjc3ihjgtig8fhf6am3lae3.apps.googleusercontent.com',
         'offline':true
       }).then(res=>{
       this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
       .then(suc=>{
         this.navCtrl.setRoot(HomePage);
+     
       }).catch(ns=>{
         alert("notsucc");
       })

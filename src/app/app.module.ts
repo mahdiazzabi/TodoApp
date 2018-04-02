@@ -26,12 +26,12 @@ import { PicturePage } from '../pages/picture/picture';
 import { ImageProvider } from '../providers/image/image';
 import {SpeechRecognition} from '@ionic-native/speech-recognition';
 export const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCEbycuhtbB-3GN4nxNtD9EVNu8LsxN528",
-  authDomain: "first-5e7fa.firebaseapp.com",
-  databaseURL: "https://first-5e7fa.firebaseio.com",
-  projectId: "first-5e7fa",
-  storageBucket: "first-5e7fa.appspot.com",
-  messagingSenderId: "428468716640"
+  apiKey: "AIzaSyBBWLEUyu5PIFpFW5eeDuZGWENP7k8y8g4",
+  authDomain: "mytodo-db.firebaseapp.com",
+  databaseURL: "https://mytodo-db.firebaseio.com",
+  projectId: "mytodo-db",
+  storageBucket: "mytodo-db.appspot.com",
+  messagingSenderId: "398864959818"
 };
 
 
