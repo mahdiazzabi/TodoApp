@@ -203,7 +203,7 @@ export class HomePage {
     .subscribe(
       (matches:Array<string>)=>{
         this.isListening=false;
-        this.matches=matches;
+        this.addwithVocal(matches);
         this.changeDetectorRef.detectChanges();
       },
       (onerror)=>{
@@ -217,6 +217,23 @@ export class HomePage {
   public stopListening():void{
     this.speechRecongnition.stopListening();
   }
+public addwithVocal(listmot:Array<string>):void{
+    if(listmot.length>0)
+    { let phrase:Array<string>=[];
+       phrase=listmot[0].split(" ");
+       let nomList="";
+       if((phrase[0].toUpperCase()=="AJOUTER")&&(listmot.length>1))
+       {
+         for(let i=1;i<phrase.length-1;i++)
+         {
+          nomList=nomList+phrase[i]+" ";
+         }
+         nomList=nomList+phrase[phrase.length-1];
+         this.todoService.addList(nomList);
 
+       }
+       
+    }
+}
 
 }
