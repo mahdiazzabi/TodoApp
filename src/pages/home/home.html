@@ -37,3 +37,18 @@
 
 <button ion-button color="secondary" block (click)="addTodoList()">Ajouter une todo liste</button>
 </ion-content>
+
+  
+    <p>Appuyez sur 'Lancer !' puis parlez à votre appareil de manière clair et reposé</p>
+    <button ion-button [color]="(isListening) ? 'danger' : 'secondary'" (tap)="(isListening) ? stopListening() : startListening()">
+      {{ (isListening) ? 'Stop !' : 'Lancer !' }}
+    </button>
+  </div>
+  <ion-list class="matches-wrapper">
+    <ion-item *ngIf="matches.length <= 0">
+      Aucun résultat :S
+    </ion-item>
+    <ion-item *ngFor="let match of matches">
+      {{ match }}
+    </ion-item>
+  </ion-list>

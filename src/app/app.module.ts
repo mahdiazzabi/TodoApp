@@ -22,8 +22,9 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import{GooglePlus} from '@ionic-native/google-plus';
 import{Camera} from '@ionic-native/camera';
 import { PicturePage } from '../pages/picture/picture';
+//Native componznts
 import { ImageProvider } from '../providers/image/image';
-
+import {SpeechRecognition} from '@ionic-native/speech-recognition';
 export const FIREBASE_CONFIG = {
   apiKey: "AIzaSyCEbycuhtbB-3GN4nxNtD9EVNu8LsxN528",
   authDomain: "first-5e7fa.firebaseapp.com",
@@ -72,7 +73,8 @@ export const FIREBASE_CONFIG = {
     TodoServiceProvider,
     AuthServiceProvider,
     GooglePlus,
-    Camera,
+    Camera,,
+    SpeechRecognition,
     ImageProvider
   ]
 })
