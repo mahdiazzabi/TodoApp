@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
+import { SharedListPage } from '../pages/shared-list/shared-list';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -37,7 +37,7 @@ export const FIREBASE_CONFIG = {
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
+    SharedListPage,
     ContactPage,
     HomePage,
     TabsPage,
@@ -56,7 +56,7 @@ export const FIREBASE_CONFIG = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
+    SharedListPage,
     ContactPage,
     HomePage,
     TabsPage,

@@ -30,6 +30,7 @@ export class HomePage {
     
    }
 
+
   addTodoList() {
     let alert = this.alertCtrl.create({
       title: 'Add Todo List',
@@ -65,6 +66,9 @@ export class HomePage {
   }
 
   nbrItemNonFini(uuid) {
+    let result = 0;
+    
+    return result ;
     /*
     let result = 0;
     this.todoList.forEach(element => {
@@ -83,7 +87,32 @@ export class HomePage {
     */
   }
 
-
+  share(item){
+    let alert = this.alertCtrl.create({
+      title: 'Please enter the mail adresse',
+      inputs: [
+        {
+          name: 'mailAdress',
+          placeholder: 'Email'
+        }],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Share',
+          handler: data => {
+            this.todoService.shareList(item , data.mailAdress);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
   deleteList(item){
     let alert = this.alertCtrl.create({
       title: 'Do you want to delete this list ?',

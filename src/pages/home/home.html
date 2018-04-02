@@ -9,14 +9,15 @@
 <ion-content padding>
   <ion-card>
     <ion-card-header>
+      <ion-item>
       Todo's List
-    <ion-buttons>
-      <button style="float: right;" (click)="addTodoList()">
-          <ion-icon name="add"></ion-icon>
+      <button ion-button icon-only item-right clear  (click)="addTodoList()">
+        <ion-icon name="md-add-circle"></ion-icon>
       </button>
- </ion-buttons>  
+    </ion-item>
+      
     </ion-card-header>
-
+    <ion-card-content>
     <ion-list>
     <ion-item-sliding *ngFor="let item of todoList"  >
         <ion-item (click)="pushPage(item)" >
@@ -28,11 +29,17 @@
             <button ion-button (click) = "updateList(item)" >Edit</button>
             <button ion-button color="danger" (click)="deleteList(item.key)">Delete</button>
           </ion-item-options>
+          <ion-item-options side="left">
+              <button ion-button (click)="share(item)">
+                <ion-icon name="md-share"></ion-icon>
+              </button>
+            </ion-item-options>
     </ion-item-sliding>
       
    
 
     </ion-list>
+  </ion-card-content>
   </ion-card>
 
   <ion-list>

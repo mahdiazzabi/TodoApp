@@ -37,6 +37,10 @@ export class TodoServiceProvider {
       name : name , 
       items : [] });
   }
+  
+  public shareList(list : TodoList , mail : string){
+    //TODO
+  }
 
 public getListByUuid(uuid: string): Promise<TodoList> {
   return new Promise((resolve, reject) => {

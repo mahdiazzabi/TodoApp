@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, AlertController, ModalController }
 import { TodoItem } from '../../model/TodoItem';
 import { TodoServiceProvider } from '../../providers/todo-service/todo-service';
 import { CameraOptions, Camera } from '@ionic-native/camera';
-import { AngularFirestore } from 'angularfire2/firestore';
 import { ImageProvider } from '../../providers/image/image';
 import { UUID } from 'angular2-uuid';
 /**
@@ -24,7 +23,7 @@ export class ItemsPage {
   public uuidTodo;
   public nameTodo;
   public items: TodoItem[];
-  constructor(private imagePro:ImageProvider,private camera :Camera,private afs:AngularFirestore,private modal: ModalController, public navCtrl: NavController, private alertCtrl: AlertController, public navParams: NavParams, private todoService: TodoServiceProvider) {
+  constructor(private imagePro:ImageProvider,private camera :Camera,private modal: ModalController, public navCtrl: NavController, private alertCtrl: AlertController, public navParams: NavParams, private todoService: TodoServiceProvider) {
     this.uuidTodo = navParams.get("uuid");
     this.nameTodo = navParams.get("name");
     todoService.getTodos(this.uuidTodo).subscribe(data => {

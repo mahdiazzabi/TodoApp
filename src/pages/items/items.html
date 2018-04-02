@@ -16,14 +16,22 @@
 <ion-content padding>
 
   <ion-card>
-    <ion-card-header>
-      {{nameTodo}}
-    </ion-card-header>
-
+      <ion-card-header>
+          <ion-item>
+              {{nameTodo}}
+          <button ion-button icon-only item-right clear  (click)="addItem()">
+            <ion-icon name="md-add-circle"></ion-icon>
+          </button>
+        </ion-item>
+          
+        </ion-card-header>
+        <ion-card-content>
     <ion-list>
     <ion-item-sliding *ngFor="let item of items" >
-        <ion-item >
+        <ion-item (click) = "update(item)">
             {{item.name}}
+            <ion-icon *ngIf="item.complete" icon-only item-right clear name="md-checkmark"></ion-icon>
+
           </ion-item>
         
           <ion-item-options side="right" >
@@ -35,10 +43,9 @@
    
 
     </ion-list>
+    
+          </ion-card-content>
   </ion-card>
-
-
-  <button ion-button color="secondary" block (click)="addItem()">Add Task</button>
   <button ion-button class="addlibraryphoto" (click) = "addLibraryPhoto()">Upload Photo</button>
   
 </ion-content>
