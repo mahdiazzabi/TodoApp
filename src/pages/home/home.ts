@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { NavController, AlertController, ToastController, NavParams } from 'ionic-angular';
+import { Component,ChangeDetectorRef } from '@angular/core';
+import { NavController, AlertController, ToastController, NavParams ,Platform} from 'ionic-angular';
 import { TodoList } from '../../model/TodoList';
 import { ItemsPage } from '../items/items';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TodoServiceProvider } from '../../providers/todo-service/todo-service';
 import { Profile } from '../../model/profile';
+import {SpeechRecognition} from '@ionic-native/speech-recognition';
 
 @Component({
   selector: 'page-home',
@@ -14,10 +15,20 @@ export class HomePage {
 
   todoList: TodoList[];
   profile = {} as Profile;
-
-  constructor( private toast: ToastController, public navParams: NavParams, private afAuth: AngularFireAuth, public navCtrl: NavController, private alertCtrl: AlertController, private todoService: TodoServiceProvider) {
+  //variable for speech
+  isSpeechAvailable=false;
+  isListening=false;
+  matches:Array<string>=[];
+  
+  constructor( private toast: ToastController, public navParams: NavParams, private afAuth: AngularFireAuth, 
+                public navCtrl: NavController, private alertCtrl: AlertController, private todoService: TodoServiceProvider,
+                private speechRecongnition:SpeechRecognition,private platform:Platform,private changeDetectorRef:ChangeDetectorRef) {
     this.profile = navParams.get("profile");
-    
+    platform.ready().then(()=>{
+      //check if spechrecognition available or not :/
+      this.speechRecongnition.isRecognitionAvailable()
+      .then((available:boolean)=>this.isSpeechAvailable=available)
+    })
     
    
   }
@@ -174,8 +185,38 @@ export class HomePage {
         }).present();
       }
     })
+  } 
+
+  public startListening():void{
+
+    this.isListening=true;
+    this.matches=[];
+    let options = {
+      language :'fr-FR',
+      matches:5,
+      promt :'Je vous écoute! :)',      // Android only
+      showPopup :true,                     // Android only
+      showPartial :false 
+    }
+
+    this.speechRecongnition.startListening(options)
+    .subscribe(
+      (matches:Array<string>)=>{
+        this.isListening=false;
+        this.matches=matches;
+        this.changeDetectorRef.detectChanges();
+      },
+      (onerror)=>{
+        this.isListening=false;
+        console.log(onerror);
+        this.changeDetectorRef.detectChanges();
+      }
+    )
   }
   
+  public stopListening():void{
+    this.speechRecongnition.stopListening();
+  }
 
 
 }
