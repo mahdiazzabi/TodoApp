@@ -24,7 +24,8 @@ export class ModalItemPage {
   uuidTodo : string ;
   toast: any;
   storage: any;
-  UuidImage=""
+  UuidImage="";
+  base64Image="";
   
   constructor( private navParams: NavParams, private view : ViewController ,
     private camera:Camera,private imagePro:ImageProvider, private todoService: TodoServiceProvider ) {
@@ -33,6 +34,11 @@ export class ModalItemPage {
   }
 
   addItem(){
+    if(this.base64Image!="")
+    {
+      this.imagePro.uploadImage(this.base64Image, this.UuidImage);
+      this.base64Image="";
+    }
     this.todoService.addTodoItem(this.todoItemName , this.todoItemDesc , this.todoItemStatut , this.uuidTodo,this.UuidImage );
     this.closeModal();
    }
@@ -61,9 +67,9 @@ savePhoto (options) {
  
   let uid = UUID.UUID();
     this.camera.getPicture(options).then((imageData) => {
-        let base64Image = 'data:image/jpeg;base64,' + imageData;
+        this.base64Image = 'data:image/jpeg;base64,' + imageData;
         this.UuidImage=uid;
-        return this.imagePro.uploadImage(base64Image, uid);
+        
       }, (err) => {
         this.toast.show(err, 5000);
       });
