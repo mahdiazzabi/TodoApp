@@ -24,12 +24,13 @@ export class HomePage {
                 public navCtrl: NavController, private alertCtrl: AlertController, private todoService: TodoServiceProvider,
                 private speechRecongnition:SpeechRecognition,private platform:Platform,private changeDetectorRef:ChangeDetectorRef) {
     this.profile = navParams.get("profile");
+    /*
     platform.ready().then(()=>{
       //check if spechrecognition available or not :/
       this.speechRecongnition.isRecognitionAvailable()
       .then((available:boolean)=>this.isSpeechAvailable=available)
     })
-    
+    */
    
   }
   
@@ -61,6 +62,12 @@ export class HomePage {
         },
         {
           text: 'Add',
+          handler: data => {
+            this.todoService.addList(data.todoListName);
+          }
+        },
+        { text: 'mic',
+          cssClass: 'md-mic',
           handler: data => {
             this.todoService.addList(data.todoListName);
           }
@@ -188,7 +195,7 @@ export class HomePage {
   } 
 
   public startListening():void{
-    
+    /*
     this.isListening=true;
     this.matches=[];
     let options = {
@@ -212,10 +219,11 @@ export class HomePage {
         this.changeDetectorRef.detectChanges();
       }
     )
+    */
   }
   
   public stopListening():void{
-    this.speechRecongnition.stopListening();
+   // this.speechRecongnition.stopListening();
   }
 
 

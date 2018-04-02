@@ -7,18 +7,30 @@ import { UUID } from 'angular2-uuid';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import * as admin from 'firebase-admin';
 
 @Injectable()
 export class TodoServiceProvider {
   userUid : string ;
   todoListRef$ : AngularFireList<TodoList>;
   todos : TodoItem [] = [] ;
+
+
+  
   constructor(private afAuth: AngularFireAuth, private afDataBase : AngularFireDatabase) {
     console.log('Hello TodoServiceProvider Provider');
     this.afAuth.authState.subscribe(auth => { 
       this.userUid = auth.uid ;
       this.todoListRef$ = this.afDataBase.list(`${this.userUid}/todoListes/`);
-      
+      var admin = require("firebase-admin");
+
+var serviceAccount = require("/Users/Mazzabi/todoListIonic/todoList/mytodo-db-firebase-adminsdk-4vr27-b338a53a6d.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://mytodo-db.firebaseio.com"
+});
+
     });
    
   }
@@ -39,7 +51,19 @@ export class TodoServiceProvider {
   }
   
   public shareList(list : TodoList , mail : string){
-    //TODO
+   
+
+
+    admin.auth().getUserByEmail(mail).then(function(userRecord) {
+    // See the UserRecord reference doc for the contents of userRecord.
+    console.log("Successfully fetched user data:", userRecord.toJSON());
+  })
+  .catch(function(error) {
+    console.log("Error fetching user data:", error);
+  });
+
+
+
   }
 
 public getListByUuid(uuid: string): Promise<TodoList> {
