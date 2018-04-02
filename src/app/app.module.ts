@@ -22,6 +22,7 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import{GooglePlus} from '@ionic-native/google-plus';
 import{Camera} from '@ionic-native/camera';
 import { PicturePage } from '../pages/picture/picture';
+import{DetailsItemPage}from '../pages/details-item/details-item';
 //Native componznts
 import { ImageProvider } from '../providers/image/image';
 import {SpeechRecognition} from '@ionic-native/speech-recognition';
@@ -45,7 +46,8 @@ export const FIREBASE_CONFIG = {
     ItemsPage,
     AuthPage,
     ProfilePage,
-    PicturePage
+    PicturePage,
+    DetailsItemPage
   ],
   imports: [
     BrowserModule,
@@ -64,7 +66,8 @@ export const FIREBASE_CONFIG = {
     ItemsPage,
     AuthPage,
     ProfilePage,
-    PicturePage
+    PicturePage,
+    DetailsItemPage
   ],
   providers: [
     StatusBar,

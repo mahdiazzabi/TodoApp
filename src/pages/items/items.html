@@ -28,7 +28,7 @@
         <ion-card-content>
     <ion-list>
     <ion-item-sliding *ngFor="let item of items" >
-        <ion-item (click) = "update(item)">
+        <ion-item (click) = "details(item)">
             {{item.name}}
             <ion-icon *ngIf="item.complete" icon-only item-right clear name="md-checkmark"></ion-icon>
 
@@ -46,6 +46,5 @@
     
           </ion-card-content>
   </ion-card>
-  <button ion-button class="addlibraryphoto" (click) = "addLibraryPhoto()">Upload Photo</button>
   
 </ion-content>
