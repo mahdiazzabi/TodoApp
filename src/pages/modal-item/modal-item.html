@@ -26,19 +26,19 @@
         <ion-item>
             <ion-label>Description :</ion-label>
             <ion-textarea [(ngModel)]="todoItemDesc" name="description"></ion-textarea>
-          </ion-item>
-          <ion-list radio-group [(ngModel)]="todoItemStatut" name="statut">
+        </ion-item>
+        <ion-list radio-group [(ngModel)]="todoItemStatut" name="statut">
               <ion-item>
                 <ion-label>In progress</ion-label>
                 <ion-radio value="false" checked></ion-radio>
               </ion-item>
               <ion-item>
                 <ion-label>Done</ion-label>
-                <ion-radio value="true"></ion-radio>
-              </ion-item>
+              <ion-radio value="true"></ion-radio>
+          </ion-item>
              
-            </ion-list>
-         
+        </ion-list>
+            <button ion-button class="addlibraryphoto" (click) = "addLibraryPhoto()">Upload Photo</button>
           <button ion-button type="submit" >Add Task</button>
       </form>
   
