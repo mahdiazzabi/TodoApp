@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "5.0.3",
     "@ionic-native/core": "4.4.0",
     "@ionic-native/google-plus": "^4.6.0",
+    "@ionic-native/speech-recognition": "^4.6.0",
     "@ionic-native/splash-screen": "4.4.0",
     "@ionic-native/status-bar": "4.4.0",
     "@ionic/pro": "1.0.16",
@@ -29,10 +30,12 @@
     "angular2-uuid": "^1.1.1",
     "angularfire2": "^5.0.0-rc.5-next",
     "cordova": "^8.0.0",
-    "cordova-android": "7.0.0",
     "cordova-plugin-camera": "^4.0.2",
+    "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^1.1.7",
+    "cordova-plugin-googleplus": "~5.2.2",
     "cordova-plugin-ionic-webview": "^1.1.16",
+    "cordova-plugin-speechrecognition": "^1.2.0",
     "cordova-plugin-splashscreen": "^4.1.0",
     "cordova-plugin-whitelist": "^1.3.3",
     "firebase": "^4.10.1",
@@ -60,7 +63,8 @@
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.428468716640-pfg6n1d3nj8cr319vaqeclb1ooak91b5"
       },
-      "cordova-plugin-camera": {}
+      "cordova-plugin-camera": {},
+      "cordova-plugin-speechrecognition": {}
     },
     "platforms": [
       "android"
