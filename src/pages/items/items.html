@@ -27,8 +27,12 @@
         </ion-card-header>
         <ion-card-content>
     <ion-list>
+      
     <ion-item-sliding *ngFor="let item of items" >
         <ion-item (click) = "details(item)">
+            <ion-avatar item-start>
+                <img [src]="{{item.urlImage}}">
+              </ion-avatar>
             {{item.name}}
             <ion-icon *ngIf="item.complete" icon-only item-right clear name="md-checkmark"></ion-icon>
 

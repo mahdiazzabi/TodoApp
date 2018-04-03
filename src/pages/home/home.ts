@@ -24,13 +24,13 @@ export class HomePage {
                 public navCtrl: NavController, private alertCtrl: AlertController, private todoService: TodoServiceProvider,
                 private speechRecongnition:SpeechRecognition,private platform:Platform,private changeDetectorRef:ChangeDetectorRef) {
     this.profile = navParams.get("profile");
- 
+ /*
     platform.ready().then(()=>{
       //check if spechrecognition available or not :/
       this.speechRecongnition.isRecognitionAvailable()
       .then((available:boolean)=>this.isSpeechAvailable=available)
     })
-    
+   */ 
    
   }
   
@@ -193,7 +193,7 @@ export class HomePage {
       }
     })
   } 
-
+/*
   public startListening():void{
     
     this.isListening=true;
@@ -244,5 +244,5 @@ public addwithVocal(listmot:Array<string>):void{
     }
 }
 
-
+*/
 }

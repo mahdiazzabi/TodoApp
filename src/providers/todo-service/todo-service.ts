@@ -49,13 +49,22 @@ export class TodoServiceProvider {
       name : name , 
       items : [] });
   }
+
+  public getListShared(): Observable<TodoList[]>{
+
+    const ListSharedRef$ = this.afDataBase.list(`${this.userUid}/sharedList/`);
+
+    return ListSharedRef$.snapshotChanges().map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+    });
+  }
   
   public shareList(list : TodoList , mail : string){
    
     admin.auth().getUserByEmail(mail).then(userRecord => {
       let ref = firebase.database().ref(`${userRecord.uid}/sharedList/${this.userUid}`);
-      let newData = ref.push();
-      newData.set({list});
+      let newData = ref.push(list.$key);
+    
     // See the UserRecord reference doc for the contents of userRecord.
     alert(userRecord.uid)
     console.log("Successfully fetched user data:", userRecord.toJSON());
