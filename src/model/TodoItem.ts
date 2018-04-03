@@ -4,5 +4,5 @@ export interface TodoItem {
     name : string,
     desc? : string,
     complete : Boolean,
-    UuidImage:string
+    urlImage:string
   }

@@ -8,7 +8,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as admin from 'firebase-admin';
-
+import * as firebase from'firebase'
 @Injectable()
 export class TodoServiceProvider {
   userUid : string ;
@@ -52,16 +52,11 @@ export class TodoServiceProvider {
   
   public shareList(list : TodoList , mail : string){
    
-    admin.auth().getUserByEmail(mail).then(function(userRecord) {
+    admin.auth().getUserByEmail(mail).then(userRecord => {
       let ref = firebase.database().ref(`${userRecord.uid}/sharedList/${this.userUid}`);
-      let newData = this.ref.push();
-      newData.set({
-        roomname:this.data.roomname
-      });
+      let newData = ref.push();
+      newData.set({list});
     // See the UserRecord reference doc for the contents of userRecord.
-    const sharedRef$ = this.afDataBase.list(`${userRecord.uid}/sharedList/${this.userUid}`).then(() =>{sharedRef$.push({list});});
-    
-
     alert(userRecord.uid)
     console.log("Successfully fetched user data:", userRecord.toJSON());
   })
@@ -178,9 +173,9 @@ public getListByUuid(uuid: string): Promise<TodoList> {
 }
 
 
-  public addTodoItem(todoItemName: string, todoItemDesc: string, todoItemStatut: Boolean, uuidList: string,UuidImage:string) {
+  public addTodoItem(todoItemName: string, todoItemDesc: string, todoItemStatut: Boolean, uuidList: string,urlImage:string) {
     
-    let todoItem: TodoItem = { uuid: UUID.UUID(), name: todoItemName, desc: todoItemDesc, complete: todoItemStatut,UuidImage:UuidImage }
+    let todoItem: TodoItem = { uuid: UUID.UUID(), name: todoItemName, desc: todoItemDesc, complete: todoItemStatut,urlImage:urlImage }
     
     this.getListKeyByUuid(uuidList).then((listid) => {
       const refTodoItem$ =  this.afDataBase.list(`${this.userUid}/todoListes/${listid}/items`);
