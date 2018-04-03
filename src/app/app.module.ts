@@ -26,6 +26,7 @@ import{DetailsItemPage}from '../pages/details-item/details-item';
 //Native componznts
 import { ImageProvider } from '../providers/image/image';
 import {SpeechRecognition} from '@ionic-native/speech-recognition';
+import { AdMobFree } from '@ionic-native/admob-free';
 export const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBBWLEUyu5PIFpFW5eeDuZGWENP7k8y8g4",
   authDomain: "mytodo-db.firebaseapp.com",
@@ -76,7 +77,8 @@ export const FIREBASE_CONFIG = {
     TodoServiceProvider,
     AuthServiceProvider,
     GooglePlus,
-    Camera,,
+    Camera,
+    AdMobFree,
     SpeechRecognition,
     ImageProvider
   ]
