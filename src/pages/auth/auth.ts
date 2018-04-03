@@ -8,7 +8,6 @@ import { ProfilePage } from '../profile/profile';
 import { Profile } from '../../model/profile';
 import { HomePage } from '../home/home';
 import{GooglePlus} from '@ionic-native/google-plus';
-import { AdMobFree, AdMobFreeBannerConfig } from '@ionic-native/admob-free';
 @IonicPage()
 @Component({
   selector: 'page-auth',
@@ -20,29 +19,12 @@ export class AuthPage {
 
   profile = {} as Profile;
   constructor(private toast: ToastController,private afAuth: AngularFireAuth, public navCtrl: NavController,
-     public navParams: NavParams,private googleplus:GooglePlus,public platform: Platform,private admobFree:AdMobFree) {
+     public navParams: NavParams,private googleplus:GooglePlus,public platform: Platform) {
 
 
   }
 
-  ionViewWillLoad() 
-  { if(this.platform.is('cordova'))
-  {
-      const bannerConfig: AdMobFreeBannerConfig = {
-        id:"ca-app-pub-4841193102141709/2139543728",
-        isTesting: false,
-        autoShow: true
-       };
-       this.admobFree.banner.config(bannerConfig);
-       
-       this.admobFree.banner.prepare()
-         .then(() => {
-           // banner Ad is ready
-           // if we set autoShow to false, then we will need to call the show method here
-         })
-         .catch(e => console.log(e));
-        }
-  }
+ 
   async login(user: User) {
       this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
       .then( result => {
