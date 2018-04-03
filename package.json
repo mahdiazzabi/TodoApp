@@ -70,8 +70,7 @@
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.428468716640-pfg6n1d3nj8cr319vaqeclb1ooak91b5"
       },
       "cordova-plugin-camera": {},
-      "cordova-plugin-speechrecognition": {},
-      "cordova-plugin-admob-free": {}
+      "cordova-plugin-speechrecognition": {}
     },
     "platforms": [
       "android"
