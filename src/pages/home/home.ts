@@ -24,6 +24,7 @@ export class HomePage {
                 public navCtrl: NavController, private alertCtrl: AlertController, private todoService: TodoServiceProvider,
                 private speechRecongnition:SpeechRecognition,private platform:Platform,private changeDetectorRef:ChangeDetectorRef) {
     this.profile = navParams.get("profile");
+ 
     platform.ready().then(()=>{
       //check if spechrecognition available or not :/
       this.speechRecongnition.isRecognitionAvailable()
@@ -61,6 +62,12 @@ export class HomePage {
         },
         {
           text: 'Add',
+          handler: data => {
+            this.todoService.addList(data.todoListName);
+          }
+        },
+        { text: 'mic',
+          cssClass: 'md-mic',
           handler: data => {
             this.todoService.addList(data.todoListName);
           }
@@ -212,17 +219,18 @@ export class HomePage {
         this.changeDetectorRef.detectChanges();
       }
     )
+    
   }
   
   public stopListening():void{
-    this.speechRecongnition.stopListening();
+   // this.speechRecongnition.stopListening();
   }
 public addwithVocal(listmot:Array<string>):void{
     if(listmot.length>0)
     { let phrase:Array<string>=[];
        phrase=listmot[0].split(" ");
        let nomList="";
-       if((phrase[0].toUpperCase()=="AJOUTER")&&(listmot.length>1))
+       if((phrase[0].toUpperCase()==="AJOUTER")&&(phrase.length>1))
        {
          for(let i=1;i<phrase.length-1;i++)
          {
@@ -235,5 +243,6 @@ public addwithVocal(listmot:Array<string>):void{
        
     }
 }
+
 
 }

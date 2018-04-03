@@ -48,7 +48,7 @@ export const FIREBASE_CONFIG = {
     AuthPage,
     ProfilePage,
     PicturePage,
-    DetailsItemPage
+    
   ],
   imports: [
     BrowserModule,
@@ -68,7 +68,7 @@ export const FIREBASE_CONFIG = {
     AuthPage,
     ProfilePage,
     PicturePage,
-    DetailsItemPage
+    
   ],
   providers: [
     StatusBar,

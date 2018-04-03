@@ -19,7 +19,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-
+      
       this.speechRecongnition.hasPermission().then((hasPermission:boolean)=>{
          console.log('Droit d\'utiliser la reconnaissance vocale?:'+hasPermission);
          if(!hasPermission)
@@ -27,7 +27,9 @@ export class MyApp {
            this.requestspeechRecognitionPermission();
          }
       })
+     
     });
+    
   }
 
 

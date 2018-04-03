@@ -7,20 +7,32 @@ import { UUID } from 'angular2-uuid';
 import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/map';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-
+import * as admin from 'firebase-admin';
+import * as firebase from'firebase'
 @Injectable()
 export class TodoServiceProvider {
   userUid : string ;
   todoListRef$ : AngularFireList<TodoList>;
   todos : TodoItem [] = [] ;
+
+
+  
   constructor(private afAuth: AngularFireAuth, private afDataBase : AngularFireDatabase) {
     console.log('Hello TodoServiceProvider Provider');
     this.afAuth.authState.subscribe(auth => { 
       this.userUid = auth.uid ;
       this.todoListRef$ = this.afDataBase.list(`${this.userUid}/todoListes/`);
-      
+
+
     });
-   
+    var admin = require("firebase-admin");
+
+    var serviceAccount = require("/Users/Mazzabi/todoListIonic/todoList/mytodo-db-firebase-adminsdk-4vr27-b338a53a6d.json");
+    
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: "https://mytodo-db.firebaseio.com"
+    });
   }
  
   public getList(): Observable<TodoList[]>  {
@@ -39,7 +51,22 @@ export class TodoServiceProvider {
   }
   
   public shareList(list : TodoList , mail : string){
-    //TODO
+   
+    admin.auth().getUserByEmail(mail).then(userRecord => {
+      let ref = firebase.database().ref(`${userRecord.uid}/sharedList/${this.userUid}`);
+      let newData = ref.push();
+      newData.set({list});
+    // See the UserRecord reference doc for the contents of userRecord.
+    alert(userRecord.uid)
+    console.log("Successfully fetched user data:", userRecord.toJSON());
+  })
+  .catch(function(error) {
+    alert(error)
+    console.log("Error fetching user data:", error);
+  });
+
+
+
   }
 
 public getListByUuid(uuid: string): Promise<TodoList> {
@@ -125,6 +152,7 @@ public getListByUuid(uuid: string): Promise<TodoList> {
    
     });
  }
+ 
   public getListKeyByUuid(uuid: string): any {
 		return new Promise((resolve, reject) => {
       const todolistRef$ = this.afDataBase.database.ref(`${this.userUid}/todoListes/`).orderByChild("uuid").equalTo(uuid);
@@ -145,9 +173,9 @@ public getListByUuid(uuid: string): Promise<TodoList> {
 }
 
 
-  public addTodoItem(todoItemName: string, todoItemDesc: string, todoItemStatut: Boolean, uuidList: string,UuidImage:string) {
+  public addTodoItem(todoItemName: string, todoItemDesc: string, todoItemStatut: Boolean, uuidList: string,urlImage:string) {
     
-    let todoItem: TodoItem = { uuid: UUID.UUID(), name: todoItemName, desc: todoItemDesc, complete: todoItemStatut,UuidImage:UuidImage }
+    let todoItem: TodoItem = { uuid: UUID.UUID(), name: todoItemName, desc: todoItemDesc, complete: todoItemStatut,urlImage:urlImage }
     
     this.getListKeyByUuid(uuidList).then((listid) => {
       const refTodoItem$ =  this.afDataBase.list(`${this.userUid}/todoListes/${listid}/items`);
