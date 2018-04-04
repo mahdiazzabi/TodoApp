@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ModalController } from 'ionic-angular';
 import { TodoItem } from '../../model/TodoItem';
 import { TodoServiceProvider } from '../../providers/todo-service/todo-service';
-import { CameraOptions, Camera } from '@ionic-native/camera';
-import { ImageProvider } from '../../providers/image/image';
-import { UUID } from 'angular2-uuid';
 
 /**
  * Generated class for the ItemsPage page.

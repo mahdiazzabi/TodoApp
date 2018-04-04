@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>My Prfile</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="logOut()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="profile-detail">
+  <div text-center >
+    <img [src]="img" ><br>
+    <p>{{name}}</p>
+
+  </div>
+
+</ion-content>

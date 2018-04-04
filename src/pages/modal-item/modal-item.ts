@@ -42,6 +42,9 @@ export class ModalItemPage {
    
        });
       this.base64Image="";
+    }else{
+      this.todoService.addTodoItem(this.todoItemName , this.todoItemDesc , this.todoItemStatut , this.uuidTodo,"assets/imgs/logo.png" );
+   
     }
     this.closeModal();
    }

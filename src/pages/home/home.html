@@ -14,10 +14,7 @@
       <button ion-button icon-only item-right clear  (click)="addTodoList()">
         <ion-icon name="md-add-circle"></ion-icon>
       </button>
-      <button ion-button [color]="(isListening) ? 'danger' : 'secondary'" (tap)="(isListening) ? stopListening() : startListening()">
-        <ion-icon name="md-mic"></ion-icon>
-        
-      </button>
+      
     </ion-item>
       
     </ion-card-header>
@@ -44,9 +41,13 @@
 
     </ion-list>
   </ion-card-content>
+  <ion-fab center bottom>
+    <button ion-button  [color]="(isListening) ? 'danger' : 'secondary'" (tap)="(isListening) ? stopListening() : startListening()">
+      <ion-icon name="md-mic"></ion-icon>
+    </button>
+  </ion-fab>
   </ion-card>
-
-   
+ 
 </ion-content>
 
 

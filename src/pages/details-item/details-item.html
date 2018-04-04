@@ -5,35 +5,32 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>detailsItem</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>Details</ion-title>
+        <ion-buttons end>
+            <button ion-button  (click)="closeModal()">Fermer</button>
+        </ion-buttons>
+      </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  
+  <img  height="150 px" width="150 px"  src="{{item.urlImage}}">
+
   <ion-item>
     <ion-label>Name: {{item.name}}</ion-label>
-    
   </ion-item>
   <ion-item>
       <ion-label>Description :{{item.desc}}</ion-label>
     </ion-item>
-    <ion-list radio-group [(ngModel)]="item.complete" name="statut">
-        <ion-item>
-          <ion-label>In progress</ion-label>
-          <ion-radio value="false" checked></ion-radio>
-        </ion-item>
-        <ion-item>
-          <ion-label>Done</ion-label>
-          <ion-radio value="true"></ion-radio>
-        </ion-item>
-       
-      </ion-list>
-      <ion-item>
-          <ion-img style="width: 80px; height: 80px;" src="{{item.urlImage}}"></ion-img>
-        
+    <ion-item>
+        <ion-label *ngIf="item.complete">Done</ion-label>
+        <ion-label *ngIf="!item.complete">In progress</ion-label>
+        <ion-icon *ngIf="item.complete" icon-only item-right clear name="md-checkmark-circle-outline"></ion-icon>
+        <ion-icon *ngIf="!item.complete" icon-only item-right clear name="md-clipboard"></ion-icon>
+
       </ion-item>
+    
 </ion-content>

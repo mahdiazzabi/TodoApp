@@ -1,7 +1,6 @@
 // import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
-import { UUID } from 'angular2-uuid';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 /*

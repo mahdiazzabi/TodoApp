@@ -6,7 +6,6 @@ import { TabsPage } from '../tabs/tabs';
 import firebase from 'firebase';
 import { ProfilePage } from '../profile/profile';
 import { Profile } from '../../model/profile';
-import { HomePage } from '../home/home';
 import{GooglePlus} from '@ionic-native/google-plus';
 @IonicPage()
 @Component({
@@ -95,7 +94,7 @@ export class AuthPage {
       this.afAuth.auth.signInWithPopup(new
         firebase.auth.GoogleAuthProvider()).then(res=>
           {  console.log(res)
-            this.navCtrl.setRoot(HomePage);
+            this.navCtrl.setRoot(TabsPage);
           
         }).catch(function (error) {
           console.log(JSON.stringify(error))
@@ -108,7 +107,7 @@ export class AuthPage {
       }).then(res=>{
       this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(res.idToken))
       .then(suc=>{
-        this.navCtrl.setRoot(HomePage);
+        this.navCtrl.setRoot(TabsPage);
      
       }).catch(ns=>{
         alert("notsucc");

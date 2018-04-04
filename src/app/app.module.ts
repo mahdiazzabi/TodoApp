@@ -4,7 +4,6 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { SharedListPage } from '../pages/shared-list/shared-list';
-import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 
@@ -22,10 +21,9 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import{GooglePlus} from '@ionic-native/google-plus';
 import{Camera} from '@ionic-native/camera';
 import { PicturePage } from '../pages/picture/picture';
-import{DetailsItemPage}from '../pages/details-item/details-item';
-//Native componznts
 import { ImageProvider } from '../providers/image/image';
 import {SpeechRecognition} from '@ionic-native/speech-recognition';
+import { ProfileUserPage } from '../pages/profile-user/profile-user';
 export const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBBWLEUyu5PIFpFW5eeDuZGWENP7k8y8g4",
   authDomain: "mytodo-db.firebaseapp.com",
@@ -40,7 +38,7 @@ export const FIREBASE_CONFIG = {
   declarations: [
     MyApp,
     SharedListPage,
-    ContactPage,
+    ProfileUserPage,
     HomePage,
     TabsPage,
     ItemsPage,
@@ -60,7 +58,7 @@ export const FIREBASE_CONFIG = {
   entryComponents: [
     MyApp,
     SharedListPage,
-    ContactPage,
+    ProfileUserPage,
     HomePage,
     TabsPage,
     ItemsPage,

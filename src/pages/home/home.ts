@@ -6,6 +6,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { TodoServiceProvider } from '../../providers/todo-service/todo-service';
 import { Profile } from '../../model/profile';
 import {SpeechRecognition} from '@ionic-native/speech-recognition';
+import { TodoItem } from '../../model/TodoItem';
 
 @Component({
   selector: 'page-home',
@@ -19,18 +20,19 @@ export class HomePage {
   isSpeechAvailable=false;
   isListening=false;
   matches:Array<string>=[];
-  
+
+
   constructor( private toast: ToastController, public navParams: NavParams, private afAuth: AngularFireAuth, 
                 public navCtrl: NavController, private alertCtrl: AlertController, private todoService: TodoServiceProvider,
                 private speechRecongnition:SpeechRecognition,private platform:Platform,private changeDetectorRef:ChangeDetectorRef) {
     this.profile = navParams.get("profile");
- /*
+ 
     platform.ready().then(()=>{
       //check if spechrecognition available or not :/
       this.speechRecongnition.isRecognitionAvailable()
       .then((available:boolean)=>this.isSpeechAvailable=available)
     })
-   */ 
+   
    
   }
   
@@ -65,12 +67,6 @@ export class HomePage {
           handler: data => {
             this.todoService.addList(data.todoListName);
           }
-        },
-        { text: 'mic',
-          cssClass: 'md-mic',
-          handler: data => {
-            this.todoService.addList(data.todoListName);
-          }
         }
       ]
     });
@@ -82,28 +78,46 @@ export class HomePage {
       uuid: item.uuid
     });
   }
-
+  
   nbrItemNonFini(uuid) {
-    let result = 0;
     
-    return result ;
-    /*
     let result = 0;
-    this.todoList.forEach(element => {
-      if (element.uuid == uuid) {
-        if (element.items) {
-          element.items.forEach(element => {
-            if (!element.complete) {
-              result++;
-            }
-          });
-        }
-
+    for (let list of this.todoList) {
+      if (list.uuid === uuid) {
+        if (list.items) {
+          
+        Object.keys(list.items).map(i=> {
+          if (list.items[i].complete === false) {
+            result ++ ;
+          }
+        } )
       }
-    });
+        
+        }
+          
+      }
+
+  
+    
     return result;
-    */
-  }
+    
+  /*
+
+    this.todoService.getTodos(uuid).subscribe(element => {
+      this.items = element;
+      console.log(element);
+    })
+    let result = 0;
+    for (let item of this.items) {
+      if (item.complete == false) {
+        result ++ 
+      }
+      
+    }
+ */
+   
+   }
+  
 
   share(item){
     let alert = this.alertCtrl.create({
@@ -193,7 +207,7 @@ export class HomePage {
       }
     })
   } 
-/*
+
   public startListening():void{
     
     this.isListening=true;
@@ -244,5 +258,5 @@ public addwithVocal(listmot:Array<string>):void{
     }
 }
 
-*/
+
 }
